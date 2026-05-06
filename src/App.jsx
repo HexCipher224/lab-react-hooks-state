@@ -3,24 +3,36 @@ import ProductList from './components/ProductList'
 import DarkModeToggle from './components/DarkModeToggle'
 import Cart from './components/Cart'
 
-const App = () => {
-  // TODO: Implement state for dark mode toggle
+  const App = () => {
+    const [darkMode, setDarkMode] = useState(false)
+    const [cart, setCart] = useState([])
+    const [category, setCategory] = useState('all')
 
-  // TODO: Implement state for cart management
-
-  // TODO: Implement state for category filtering
+          const addToCart = (product) => {
+    if (!cart.includes(product.name)) {
+      setCart([...cart, product.name])
+    }
+  }
 
   return (
-    <div>
+    <div className = {darkMode ? 'dark' : 'light'}>
       <h1>🛒 Shopping App</h1>
       <p>
         Welcome! Your task is to implement filtering, cart management, and dark
         mode.
       </p>
 
-      {/* TODO: Render DarkModeToggle and implement dark mode functionality */}
+      {<DarkModeToggle
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+      />/* TODO: Render DarkModeToggle and implement dark mode functionality */}
 
-      {/* TODO: Implement category filter dropdown */}
+      {<select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+
+      </select>/* TODO: Implement category filter dropdown */}
       <label>Filter by Category: </label>
       <select>
         <option value="all">All</option>
@@ -28,11 +40,16 @@ const App = () => {
         <option value="Dairy">Dairy</option>
       </select>
 
-      <ProductList />
-
-      {/* TODO: Implement and render Cart component */}
+      <ProductList 
+      category={category}
+      addToCart={addToCart}
+      cart={cart}
+      />
+      3
+      {<Cart cart={cart}
+       />/* TODO: Implement and render Cart component */}
     </div>
   )
 }
 
-export default App
+export default App;
