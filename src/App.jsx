@@ -1,31 +1,26 @@
 import React, { useState } from 'react'
-import ProductList, { sampleProducts } from './components/ProductList'
+import ProductList from './components/ProductList'
 import DarkModeToggle from './components/DarkModeToggle'
 import Cart from './components/Cart'
 
+const sampleProducts = [
+  {id: 1, name: 'Orange', price: '$1.00', category: 'Fruits', inStock:true},
+  {id: 2, name: 'Milk', price: '$2.99', category: 'Dairy', inStock:false}
+]
 const App = () => {
   // ── State ──────────────────────────────────────────────────────────────────
-  const [isDarkMode, setIsDarkMode] = useState(false)
-  const [cart, setCart] = useState([])                   // stores full product objects
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [darkMode, setDarkMode] = useState(false)
+  const [cartItems, setCartItems] = useState([])
+  const [selectedCategory, setCardItems] = useState('all')
 
-  // ── Derive unique categories from product data for the dropdown ────────────
-  const categories = ['All', ...new Set(sampleProducts.map((p) => p.category))]
+const filteredProducts = 
+  selectedCategory === "all"
+    ? sampleProducts
+    : sampleProducts.filter(product => product.category === selectedCategory)
 
-  // ── Handlers ───────────────────────────────────────────────────────────────
-
-  // Toggle dark mode on/off
-  function handleToggleDarkMode() {
-    setIsDarkMode((prev) => !prev)
-  }
-
-  // Add product to cart — prevent duplicates by checking id
-  function handleAddToCart(product) {
-    const alreadyInCart = cart.some((item) => item.id === product.id)
-    if (!alreadyInCart) {
-      setCart((prev) => [...prev, product])
-    }
-  }
+const addToCart = (product) => {
+      setCartItems(prev => [...prev, product])
+}
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -35,5 +30,24 @@ const App = () => {
         Welcome! Your task is to implement filtering, cart management, and dark
         mode.
       </p>
+      <darkModeToggle 
+      darkMode={darkMode}
+      setDarkMode={setDarkMode}
+      />
+
+      <Cart cart = {cartItems} />
+
+      <label>Filter by category: </label>
+      <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+        <option value="all">All</option>
+        <option value="Fruits">Fruits</option>
+        <option value="Dairy">Dairy</option>
+      </select>
+    <ProductList
+      products={filteredProducts}
+      onAddToCart={addToCart}
+    />
     </div>
   )}
+
+  export default App;
