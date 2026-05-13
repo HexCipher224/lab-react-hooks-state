@@ -2,11 +2,6 @@ import React from 'react'
 import ProductCard from './ProductCard'
 import PropTypes from 'prop-types'
 
-export const sampleProducts = [
-  {id: 1, name: 'Orange', price: '$1.00', category: 'Fruits', inStock:true},
-  {id: 2, name: 'Milk', price: '$2.99', category: 'Dairy', inStock:false}
-]
-
 const ProductList = ({products, onAddToCart}) => {
   return (
     <div>
@@ -15,7 +10,7 @@ const ProductList = ({products, onAddToCart}) => {
         <p>No products available</p>
       ) : (
         products.map((product) => (
-          <productCard key={product.id} product={product} onAddToCart={onAddToCart} />
+          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
         ) )
         )}
     </div>
